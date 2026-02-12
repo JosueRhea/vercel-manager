@@ -28,7 +28,21 @@ export default async function ProjectsPage() {
   }
 
   const data = await vercel.projects.getProjects({ limit: "100" });
-  const projects = "projects" in data ? data.projects : [];
+  const rawProjects = "projects" in data ? data.projects : [];
+
+  const projects = rawProjects.map((p) => {
+    const aliasArray = "alias" in p ? (p.alias as Array<{ domain: string; target?: string }>) : undefined;
+    const prodAlias = aliasArray?.find((a) => a.target === "PRODUCTION");
+    const firstAlias = aliasArray?.[0];
+    return {
+      id: p.id,
+      name: p.name,
+      framework: p.framework,
+      updatedAt: p.updatedAt,
+      latestDeployments: p.latestDeployments as Array<{ readyState: string }> | undefined,
+      domain: prodAlias?.domain ?? firstAlias?.domain ?? null,
+    };
+  });
 
   return (
     <div className="space-y-6">

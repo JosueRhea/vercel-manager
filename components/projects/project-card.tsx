@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/deployments/status-badge";
-import { GitBranchIcon } from "lucide-react";
+import { GitBranchIcon, GlobeIcon } from "lucide-react";
 
 interface ProjectCardProps {
   id: string;
@@ -9,6 +9,7 @@ interface ProjectCardProps {
   framework?: string | null;
   updatedAt?: number;
   latestDeploymentStatus?: string;
+  domain?: string | null;
 }
 
 export function ProjectCard({
@@ -17,6 +18,7 @@ export function ProjectCard({
   framework,
   updatedAt,
   latestDeploymentStatus,
+  domain,
 }: ProjectCardProps) {
   return (
     <Link href={`/dashboard/projects/${id}`}>
@@ -27,7 +29,13 @@ export function ProjectCard({
             <StatusBadge status={latestDeploymentStatus} />
           )}
         </CardHeader>
-        <CardContent className="flex items-center gap-3 text-sm text-muted-foreground">
+        <CardContent className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+          {domain && (
+            <span className="flex items-center gap-1">
+              <GlobeIcon className="h-3.5 w-3.5" />
+              {domain}
+            </span>
+          )}
           {framework && (
             <span className="flex items-center gap-1">
               <GitBranchIcon className="h-3.5 w-3.5" />
