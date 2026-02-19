@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { LocalTime } from "./local-time";
 import { StatusBadge } from "./status-badge";
 
 interface Deployment {
@@ -73,12 +74,7 @@ export function DeploymentTable({ deployments, projectId }: DeploymentTableProps
               {d.target ?? "preview"}
             </TableCell>
             <TableCell className="text-sm text-muted-foreground">
-              {new Date(d.created).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-              })}
+              <LocalTime timestamp={d.created} />
             </TableCell>
             <TableCell className="text-sm">
               {d.creator.username ?? d.creator.email ?? "-"}

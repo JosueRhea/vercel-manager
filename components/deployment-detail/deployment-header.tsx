@@ -1,5 +1,6 @@
 import { ExternalLinkIcon, GitBranchIcon, ClockIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { LocalTime } from "@/components/deployments/local-time";
 import { StatusBadge } from "@/components/deployments/status-badge";
 import { RedeployButton } from "@/components/deployments/redeploy-button";
 
@@ -93,14 +94,7 @@ export function DeploymentHeader({
       )}
 
       <div className="text-xs text-muted-foreground">
-        Created{" "}
-        {new Date(createdAt).toLocaleString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-        })}
+        Created <LocalTime timestamp={createdAt} options={{ year: "numeric" }} className="contents" />
       </div>
 
       <Separator />
